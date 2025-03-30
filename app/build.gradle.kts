@@ -78,6 +78,9 @@ dependencies {
     implementation(libs.androidx.activity.ktx)
     implementation(libs.androidx.fragment.ktx)
 
+    // splashscreen
+    implementation(libs.androidx.core.splashscreen)
+
 }
 
 // Allow references to generated code
