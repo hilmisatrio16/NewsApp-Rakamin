@@ -5,12 +5,14 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.rakamin.newsapp.R
 import com.rakamin.newsapp.adapter.HorizontalListAdapter
+import com.rakamin.newsapp.adapter.SearchListAdapter
 import com.rakamin.newsapp.adapter.VerticalListAdapter
 import com.rakamin.newsapp.data.remote.response.Article
 import com.rakamin.newsapp.data.remote.response.Resource
@@ -44,9 +46,50 @@ class HomeFragment : Fragment() {
             viewModel.getHeadlines(COUNTRY, API_KEY)
         }
 
+
+
         onClick()
+        searchNews()
         observerDataAllNews()
         observerDataHeadlineNews()
+        observerDataSearch()
+    }
+
+    private fun observerDataSearch() {
+        val searchAdapter = SearchListAdapter {
+            findNavController().navigate(
+                HomeFragmentDirections.actionHomeFragmentToDetailFragment(
+                    it.url
+                )
+            )
+        }
+        binding.rvSearch.apply {
+            layoutManager = LinearLayoutManager(context)
+            adapter = searchAdapter
+        }
+        viewModel.dataSearch.filterNotNull().onEach {
+            when (it) {
+                is Resource.Error -> {
+                }
+
+                is Resource.Loading -> {
+
+                }
+
+                is Resource.Success -> {
+                    searchAdapter.submitData(it.data?.articles as ArrayList<Article>)
+                }
+            }
+        }.launchIn(lifecycleScope)
+    }
+
+    private fun searchNews() {
+        binding.svNews.editText.setOnEditorActionListener { textView, _, _ ->
+            with(ConstantValues) {
+                viewModel.searchNews(textView.text.toString(), API_KEY, PAGE_SIZE)
+            }
+            true
+        }
     }
 
     private fun onClick() {

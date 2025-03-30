@@ -23,6 +23,9 @@ class HomeViewModel @Inject constructor(
     private val _dataHeadlineNews = MutableStateFlow<Resource<NewsResponse>?>(null)
     val dataHeadlineNews = _dataHeadlineNews.asStateFlow()
 
+    private val _dataSearch = MutableStateFlow<Resource<NewsResponse>?>(null)
+    val dataSearch = _dataSearch.asStateFlow()
+
     fun getAllNews(q: String, apiKey: String, pageSize: Int) {
         viewModelScope.launch {
             repository.getAllNews(
@@ -39,6 +42,18 @@ class HomeViewModel @Inject constructor(
         viewModelScope.launch {
             repository.getHeadlineNews(country, apiKey).collect { result ->
                 _dataHeadlineNews.value = result
+            }
+        }
+    }
+
+    fun searchNews(q: String, apiKey: String, pageSize: Int) {
+        viewModelScope.launch {
+            repository.getAllNews(
+                q,
+                apiKey,
+                pageSize
+            ).collect { result ->
+                _dataSearch.value = result
             }
         }
     }

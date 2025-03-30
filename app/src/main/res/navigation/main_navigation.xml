@@ -35,5 +35,8 @@
             android:name="mode"
             app:argType="string"
             android:defaultValue="ALL_NEWS" />
+        <action
+            android:id="@+id/action_searchFragment_to_detailFragment"
+            app:destination="@id/detailFragment" />
     </fragment>
 </navigation>
