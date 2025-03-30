@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     tools:context=".ui.home.HomeFragment">
 
     <androidx.constraintlayout.widget.Guideline
@@ -144,7 +145,6 @@
                 android:layout_marginTop="16dp"
                 android:clipToPadding="false"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                app:layoutManagerOrientation="vertical"
                 tools:listitem="@layout/vertical_item" />
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
@@ -155,7 +155,14 @@
         android:layout_height="match_parent"
         android:hint="search news...">
 
-        <!-- Search suggestions/results go here (ScrollView, RecyclerView, etc.). -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_search"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="16dp"
+            android:clipToPadding="false"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:listitem="@layout/vertical_item" />
 
     </com.google.android.material.search.SearchView>
 
