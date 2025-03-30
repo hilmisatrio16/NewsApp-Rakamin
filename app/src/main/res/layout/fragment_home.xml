@@ -144,8 +144,19 @@
                 android:layout_marginTop="16dp"
                 android:clipToPadding="false"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                app:layoutManagerOrientation="vertical" />
+                app:layoutManagerOrientation="vertical"
+                tools:listitem="@layout/vertical_item" />
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
+
+    <com.google.android.material.search.SearchView
+        android:id="@+id/sv_news"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:hint="search news...">
+
+        <!-- Search suggestions/results go here (ScrollView, RecyclerView, etc.). -->
+
+    </com.google.android.material.search.SearchView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
