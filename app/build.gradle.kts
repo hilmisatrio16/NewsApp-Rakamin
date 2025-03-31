@@ -81,6 +81,9 @@ dependencies {
     // splashscreen
     implementation(libs.androidx.core.splashscreen)
 
+    // shimmer
+    implementation (libs.shimmer)
+
 }
 
 // Allow references to generated code
