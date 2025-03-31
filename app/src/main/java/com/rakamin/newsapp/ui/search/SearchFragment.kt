@@ -11,12 +11,11 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.rakamin.newsapp.R
-import com.rakamin.newsapp.adapter.HorizontalListAdapter
 import com.rakamin.newsapp.adapter.SearchListAdapter
 import com.rakamin.newsapp.adapter.VerticalListAdapter
-import com.rakamin.newsapp.data.remote.response.Article
 import com.rakamin.newsapp.data.remote.response.Resource
 import com.rakamin.newsapp.databinding.FragmentSearchBinding
+import com.rakamin.newsapp.model.DataArticle
 import com.rakamin.newsapp.ui.home.HomeFragmentDirections
 import com.rakamin.newsapp.utils.ConstantValues
 import dagger.hilt.android.AndroidEntryPoint
@@ -95,7 +94,17 @@ class SearchFragment : Fragment() {
                 }
 
                 is Resource.Success -> {
-                    searchAdapter.submitData(it.data?.articles as ArrayList<Article>)
+                    val articleList = it.data?.articles?.map { data ->
+                        DataArticle(
+                            data.author?: "Author",
+                            data.publishedAt,
+                            data.source.name,
+                            data.title,
+                            data.url,
+                            data.urlToImage
+                        )
+                    }
+                    searchAdapter.submitData(articleList as ArrayList<DataArticle>)
                 }
             }
         }.launchIn(lifecycleScope)
@@ -123,7 +132,17 @@ class SearchFragment : Fragment() {
                 }
 
                 is Resource.Success -> {
-                    adapterNews.submitData(it.data?.articles as ArrayList<Article>)
+                    val articleList = it.data?.articles?.map { data ->
+                        DataArticle(
+                            data.author?: "Author",
+                            data.publishedAt,
+                            data.source.name,
+                            data.title,
+                            data.url,
+                            data.urlToImage
+                        )
+                    }
+                    adapterNews.submitData(articleList as ArrayList<DataArticle>)
                 }
             }
         }.launchIn(lifecycleScope)

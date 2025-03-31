@@ -8,24 +8,24 @@ import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.rakamin.newsapp.data.remote.response.Article
 import com.rakamin.newsapp.databinding.VerticalItemBinding
+import com.rakamin.newsapp.model.DataArticle
 import com.rakamin.newsapp.utils.convertTime
 
-class VerticalListAdapter(var clickItemNews: (Article) -> Unit) :
+class VerticalListAdapter(var clickItemNews: (DataArticle) -> Unit) :
     RecyclerView.Adapter<VerticalListAdapter.ViewHolder>() {
 
-    private var diffCallbackUser = object : DiffUtil.ItemCallback<Article>() {
+    private var diffCallbackUser = object : DiffUtil.ItemCallback<DataArticle>() {
         override fun areItemsTheSame(
-            oldItem: Article,
-            newItem: Article
+            oldItem: DataArticle,
+            newItem: DataArticle
         ): Boolean {
             return oldItem.title == newItem.title
         }
 
         override fun areContentsTheSame(
-            oldItem: Article,
-            newItem: Article
+            oldItem: DataArticle,
+            newItem: DataArticle
         ): Boolean {
             return oldItem.hashCode() == newItem.hashCode()
         }
@@ -34,18 +34,18 @@ class VerticalListAdapter(var clickItemNews: (Article) -> Unit) :
 
     private var differ = AsyncListDiffer(this, diffCallbackUser)
 
-    fun submitData(valueList: ArrayList<Article>) {
+    fun submitData(valueList: ArrayList<DataArticle>) {
         differ.submitList(valueList)
     }
 
     class ViewHolder(private var binding: VerticalItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
         @RequiresApi(Build.VERSION_CODES.O)
-        fun bind(data: Article) {
+        fun bind(data: DataArticle) {
             with(binding) {
                 tvTitle.text = data.title
                 tvWriter.text = data.author
-                tvChannel.text = data.source.name
+                tvChannel.text = data.sourceName
                 tvDateRelease.text = convertTime(data.publishedAt)
                 Glide.with(itemView)
                     .load(data.urlToImage)

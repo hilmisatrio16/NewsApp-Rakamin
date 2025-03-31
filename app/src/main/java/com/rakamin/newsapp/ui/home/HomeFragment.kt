@@ -5,7 +5,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -14,9 +13,9 @@ import com.rakamin.newsapp.R
 import com.rakamin.newsapp.adapter.HorizontalListAdapter
 import com.rakamin.newsapp.adapter.SearchListAdapter
 import com.rakamin.newsapp.adapter.VerticalListAdapter
-import com.rakamin.newsapp.data.remote.response.Article
 import com.rakamin.newsapp.data.remote.response.Resource
 import com.rakamin.newsapp.databinding.FragmentHomeBinding
+import com.rakamin.newsapp.model.DataArticle
 import com.rakamin.newsapp.utils.ConstantValues
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.filterNotNull
@@ -77,7 +76,17 @@ class HomeFragment : Fragment() {
                 }
 
                 is Resource.Success -> {
-                    searchAdapter.submitData(it.data?.articles as ArrayList<Article>)
+                    val articleList = it.data?.articles?.map { data ->
+                        DataArticle(
+                            data.author?: "Author",
+                            data.publishedAt,
+                            data.source.name,
+                            data.title,
+                            data.url,
+                            data.urlToImage
+                        )
+                    }
+                    searchAdapter.submitData(articleList as ArrayList<DataArticle>)
                 }
             }
         }.launchIn(lifecycleScope)
@@ -134,7 +143,17 @@ class HomeFragment : Fragment() {
                 }
 
                 is Resource.Success -> {
-                    adapterHeadlineNews.submitData(it.data?.articles as ArrayList<Article>)
+                    val articleList = it.data?.articles?.map { data ->
+                        DataArticle(
+                            data.author?: "Author",
+                            data.publishedAt,
+                            data.source.name,
+                            data.title,
+                            data.url,
+                            data.urlToImage
+                        )
+                    }
+                    adapterHeadlineNews.submitData(articleList as ArrayList<DataArticle>)
                 }
             }
         }.launchIn(lifecycleScope)
@@ -162,7 +181,17 @@ class HomeFragment : Fragment() {
                 }
 
                 is Resource.Success -> {
-                    adapterAllNews.submitData(it.data?.articles as ArrayList<Article>)
+                    val articleList = it.data?.articles?.map { data ->
+                        DataArticle(
+                            data.author?: "Author",
+                            data.publishedAt,
+                            data.source.name,
+                            data.title,
+                            data.url,
+                            data.urlToImage
+                        )
+                    }
+                    adapterAllNews.submitData(articleList as ArrayList<DataArticle>)
                 }
             }
         }.launchIn(lifecycleScope)
