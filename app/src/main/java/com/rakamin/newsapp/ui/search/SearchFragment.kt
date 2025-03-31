@@ -113,7 +113,7 @@ class SearchFragment : Fragment() {
     private fun observerDataNews() {
         val adapterNews = VerticalListAdapter {
             findNavController().navigate(
-                HomeFragmentDirections.actionHomeFragmentToDetailFragment(
+                SearchFragmentDirections.actionSearchFragmentToDetailFragment(
                     it.url
                 )
             )
